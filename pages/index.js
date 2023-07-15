@@ -59,17 +59,17 @@ export default function HomePage() {
     }
   }
 
-  const deposit = async() => {
+  const comb = async() => {
     if (atm) {
-      let tx = await atm.deposit(1);
+      let tx = await atm.combination(5,3);
       await tx.wait()
       getBalance();
     }
   }
 
-  const withdraw = async() => {
+  const perm = async() => {
     if (atm) {
-      let tx = await atm.withdraw(1);
+      let tx = await atm.permutation(6,4);
       await tx.wait()
       getBalance();
     }
@@ -93,9 +93,9 @@ export default function HomePage() {
     return (
       <div>
         <p>Your Account: {account}</p>
-        <p>Your Balance: {balance}</p>
-        <button onClick={deposit}>Deposit 1 ETH</button>
-        <button onClick={withdraw}>Withdraw 1 ETH</button>
+        <p>Answer: {balance}</p>
+        <button onClick={comb}>Combination of 5 & 3</button>
+        <button onClick={perm}>Permutation of 6 & 4</button>
       </div>
     )
   }
@@ -104,11 +104,14 @@ export default function HomePage() {
 
   return (
     <main className="container">
-      <header><h1>Welcome to the Metacrafters ATM!</h1></header>
+      <header><h1>Permutations & Combinations</h1></header>
       {initUser()}
       <style jsx>{`
         .container {
-          text-align: center
+          text-align: center;
+          background-color:red;
+          border: 5px solid green;
+          padding:5px;
         }
       `}
       </style>
