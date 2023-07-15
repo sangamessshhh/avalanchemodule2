@@ -1,17 +1,15 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.9;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.7;
 
 //import "hardhat/console.sol";
 
 contract Assessment {
-    address payable public owner;
+    
     uint256 public balance;
 
-    event Deposit(uint256 amount);
-    event Withdraw(uint256 amount);
 
-    constructor(uint initBalance) payable {
-        owner = payable(msg.sender);
+    constructor(uint256 initBalance) payable {
+        
         balance = initBalance;
     }
 
@@ -19,42 +17,38 @@ contract Assessment {
         return balance;
     }
 
-    function deposit(uint256 _amount) public payable {
-        uint _previousBalance = balance;
+    function combination(uint256 n, uint256 r) public payable {
+        //C(n, r) = n! / (r! * (n - r)!)
+        require(n >= r, "n must be greater than or equal to r");
+        require(n >= 0 && r >= 0, "n and r must be non-negative");
 
-        // make sure this is the owner
-        require(msg.sender == owner, "You are not the owner of this account");
-
-        // perform transaction
-        balance += _amount;
-
-        // assert transaction completed successfully
-        assert(balance == _previousBalance + _amount);
-
-        // emit the event
-        emit Deposit(_amount);
-    }
-
-    // custom error
-    error InsufficientBalance(uint256 balance, uint256 withdrawAmount);
-
-    function withdraw(uint256 _withdrawAmount) public {
-        require(msg.sender == owner, "You are not the owner of this account");
-        uint _previousBalance = balance;
-        if (balance < _withdrawAmount) {
-            revert InsufficientBalance({
-                balance: balance,
-                withdrawAmount: _withdrawAmount
-            });
+        if (r > n / 2) {
+            r = n - r;
         }
 
-        // withdraw the given amount
-        balance -= _withdrawAmount;
+        uint256 num = 1;
+        uint256 denom = 1;
 
-        // assert the balance is correct
-        assert(balance == (_previousBalance - _withdrawAmount));
+        for (uint256 i = 1; i <= r; i++) {
+            num *= n - i + 1;
+            denom *= i;
+        }
 
-        // emit the event
-        emit Withdraw(_withdrawAmount);
+        uint256 comb = num / denom;
+        balance=comb;
+    }
+
+
+    function permutation(uint256 n,uint256 r) public payable {
+        //P(n, r) = n! / (n - r)!
+        require(n >= r, "n must be greater than or equal to r");
+        require(n >= 0 && r >= 0, "n and r must be non-negative");
+
+        uint256 perm = 1;
+
+        for (uint256 i = 0; i < r; i++) {
+            perm *= n - i;
+        }
+        balance=perm;
     }
 }
